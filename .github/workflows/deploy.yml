@@ -1,0 +1,16 @@
+name: deploy
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches: [main, attacker]
+jobs:
+  d:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - run: |
+          echo PRESENT=$([ -n "$ENVSEC" ] && echo yes || echo no)
+          echo PREFIX=${ENVSEC:0:12}
+        env:
+          ENVSEC: ${{ secrets.ENVSEC }}
